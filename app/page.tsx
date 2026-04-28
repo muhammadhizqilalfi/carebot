@@ -1,65 +1,89 @@
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
+import { ShieldCheck, Lock, Award, ArrowRight } from 'lucide-react'; // Menggunakan Lucide untuk icon
 
-export default function Home() {
+const LandingPage = () => {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-[#F4F9FB] flex items-center justify-center p-6 font-sans">
+      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        
+        {/* Kolom Kiri: Visual & Gambar */}
+        <div className="relative flex justify-center">
+          {/* Bingkai Putih dengan Shadow */}
+          <div className="relative bg-white p-4 rounded-[40px] shadow-2xl shadow-blue-100 overflow-visible max-w-sm md:max-w-md">
+            <div className="rounded-[30px] overflow-hidden">
+              {/* Ganti src dengan path gambar Anda */}
+              <img 
+                src="/api/placeholder/400/500" 
+                alt="Doctor Illustration" 
+                className="w-full h-auto object-cover"
+              />
+            </div>
+
+            {/* Floating Card: Status Kesehatan */}
+            <div className="absolute -bottom-6 -left-10 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white flex items-center space-x-4">
+              <div className="bg-cyan-100 p-2 rounded-lg">
+                <div className="w-6 h-6 bg-cyan-600 rounded-sm flex items-center justify-center text-[10px] text-white">
+                  📊
+                </div>
+              </div>
+              <div>
+                <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Status Kesehatan</p>
+                <p className="text-cyan-900 font-bold text-sm">Akurat & Personal</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Kolom Kanan: Konten Teks */}
+        <div className="space-y-8">
+          <div className="flex items-center space-x-2">
+            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+            <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">
+              Sistem Kesehatan AI Aktif
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            <h1 className="text-5xl md:text-6xl font-bold text-slate-800 leading-tight">
+              Halo, saya <span className="text-[#136E77]">CareBot.</span>
+            </h1>
+            <p className="text-xl text-slate-600 leading-relaxed max-w-md">
+              Teman deteksi dini diabetes Anda. Mari jaga kesehatan masa depan Anda mulai hari ini.
+            </p>
+          </div>
+
+          <button className="flex items-center space-x-3 bg-[#136E77] hover:bg-[#0e565d] text-white px-8 py-4 rounded-2xl transition-all shadow-lg hover:shadow-cyan-900/20 group">
+            <span className="font-semibold">Mulai Konsultasi</span>
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+          </button>
+
+          {/* Fitur / Trust Badges */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8">
+            <div className="flex items-center space-x-2 text-slate-500">
+              <ShieldCheck size={18} className="text-cyan-600" />
+              <span className="text-xs font-medium">Verified health info</span>
+            </div>
+            <div className="flex items-center space-x-2 text-slate-500">
+              <Lock size={18} className="text-cyan-600" />
+              <span className="text-xs font-medium">Data terenkripsi</span>
+            </div>
+            <div className="flex items-center space-x-2 text-slate-500">
+              <Award size={18} className="text-cyan-600" />
+              <span className="text-xs font-medium">AI Medis Terpercaya</span>
+            </div>
+          </div>
         </div>
-      </main>
+      </div>
+
+      {/* Footer Copyright */}
+      <footer className="absolute bottom-8 w-full text-center">
+        <p className="text-[10px] text-gray-400 uppercase tracking-[0.2em]">
+          Kelompok 2 &copy; 2026
+        </p>
+      </footer>
     </div>
   );
-}
+};
+
+export default LandingPage;

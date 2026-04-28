@@ -13,8 +13,57 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid())
-  email String @unique
-  name  String?
-  createAt DateTime @default(now())
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String    
+  fullName      String?
+  
+  // Data Fisik (Health Profile - untuk fitur Settings)
+  age           Int?
+  weight        Float?    
+  height        Float?    
+  
+  // Auth & Security
+  resetToken    String?   @unique
+  resetTokenExp DateTime?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  sessions      Session[]
+  chatArchives  ChatArchive[]
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ChatArchive {
+  id        String   @id @default(uuid())
+  title     String?  // Nama sesi chat, misal: "Konsultasi 28 April"
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Detail pesan disimpan di sini
+  messages  Message[]
+  
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id            String      @id @default(uuid())
+  chatArchiveId String
+  chatArchive   ChatArchive @relation(fields: [chatArchiveId], references: [id], onDelete: Cascade)
+  
+  // Kita gunakan boolean sederhana untuk membedakan
+  // isFromUser = true (User), isFromUser = false (AI/CareBot)
+  content       String      @db.Text
+  isFromUser    Boolean     @default(true)
+  
+  createdAt     DateTime    @default(now())
 }
