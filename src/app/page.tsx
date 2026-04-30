@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { ShieldCheck, Lock, Award, ArrowRight } from 'lucide-react'; // Menggunakan Lucide untuk icon
 
@@ -14,7 +15,7 @@ const LandingPage = () => {
             <div className="rounded-[30px] overflow-hidden">
               {/* Ganti src dengan path gambar Anda */}
               <img 
-                src="/api/placeholder/400/500" 
+                src="./dokter.jpg" 
                 alt="Doctor Illustration" 
                 className="w-full h-auto object-cover"
               />
@@ -53,10 +54,10 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <button className="flex items-center space-x-3 bg-[#136E77] hover:bg-[#0e565d] text-white px-8 py-4 rounded-2xl transition-all shadow-lg hover:shadow-cyan-900/20 group">
+          <Link href="/dashboard" className="inline-flex items-center space-x-3 bg-[#136E77] hover:bg-[#0e565d] text-white px-8 py-4 rounded-2xl transition-all shadow-lg hover:shadow-cyan-900/20 group">
             <span className="font-semibold">Mulai Konsultasi</span>
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
 
           {/* Fitur / Trust Badges */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8">
