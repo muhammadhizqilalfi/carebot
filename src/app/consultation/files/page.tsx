@@ -61,7 +61,7 @@ export default function ConsultationFilesPage() {
           <input 
             type="text" 
             placeholder="Cari nama file..." 
-            className="w-full md:w-[280px] pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-[14px] font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0B7A7D]/10 focus:border-[#0B7A7D]/30 shadow-sm transition-all"
+            className="w-full md:w-72 pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-[14px] font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0B7A7D]/10 focus:border-[#0B7A7D]/30 shadow-sm transition-all"
           />
         </div>
       </div>

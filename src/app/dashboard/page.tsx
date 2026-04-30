@@ -24,7 +24,7 @@ export default function MainDashboardPage() {
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div>
             <h1 className="text-[34px] font-black text-slate-900 tracking-tight mb-2">
-              Selamat Datang, <span className="text-[#0B7A7D]">Reky!</span>
+              Selamat Datang, <span className="text-[#0B7A7D]">CareSob!</span>
             </h1>
             <p className="text-slate-500 font-medium text-[15px]">
               Pantau kesehatan diabetes Anda dan konsultasikan keluhan Anda hari ini.

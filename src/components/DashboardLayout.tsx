@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
   LayoutDashboard, 
+  MessageCircle,
   History, 
   BookOpen, 
   Activity, 
@@ -20,6 +21,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard }, 
+    { name: 'Consultation', path: '/consultation/chat', icon: MessageCircle },
     { name: 'Chat History', path: '/chat-history', icon: History },
     { name: 'Health Hub', path: '/health-hub', icon: BookOpen },
     { name: 'Risk Profile', path: '/Profile', icon: Activity },
@@ -107,7 +109,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         Mengganti `overflow-hidden` menjadi `overflow-y-auto overflow-x-hidden px-8`
         agar halaman yang isinya panjang bisa di-scroll dengan mulus.
       */}
-      <main className="flex-1 flex flex-col relative h-full overflow-y-auto overflow-x-hidden px-8">
+      <main className="flex-1 flex flex-col relative h-full min-h-0 overflow-y-auto overflow-x-hidden px-8">
         {children}
       </main>
     </div>

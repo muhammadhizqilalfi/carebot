@@ -24,7 +24,7 @@ export default function ConsultationLayout({ children }: { children: React.React
           <Link 
             href="/consultation/chat" 
             className={`transition-all duration-200 ${
-              pathname.includes('/chat') 
+              pathname === '/consultation/chat' 
                 ? 'text-[#0B7A7D] border-b-2 border-[#0B7A7D] pb-1' 
                 : 'text-slate-400 hover:text-[#0B7A7D]'
             }`}

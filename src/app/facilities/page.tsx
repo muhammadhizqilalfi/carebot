@@ -92,7 +92,7 @@ export default function FacilitiesPage() {
           <h1 className="text-[28px] font-extrabold text-[#0B7A7D] tracking-tight">Nearby Facilities</h1>
           
           <div className="flex items-center gap-4">
-            <div className="relative w-full md:w-[320px] group">
+            <div className="relative w-full md:w-80 group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                 <Search size={18} className="text-slate-400 group-focus-within:text-[#0B7A7D] transition-colors" />
               </div>
