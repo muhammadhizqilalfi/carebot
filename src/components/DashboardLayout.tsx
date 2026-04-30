@@ -88,15 +88,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
           {/* Bottom Sidebar Actions */}
           <div className="mt-auto p-6 space-y-6">
-            <button className="w-full bg-[#0B7A7D] text-white rounded-full py-3.5 text-sm font-bold shadow-[0_8px_20px_rgba(11,122,125,0.2)] hover:bg-[#086163] hover:shadow-md transition-all active:scale-95">
+            <Link href="/consultation/chat" className="flex items-center justify-center w-full bg-[#0B7A7D] text-white rounded-full py-3.5 text-[14px] font-bold shadow-[0_8px_20px_rgba(11,122,125,0.2)] hover:bg-[#086163] hover:shadow-md transition-all active:scale-95">
               Start New Assessment
-            </button>
+            </Link>
             <div className="space-y-4 px-2 pb-2 border-t border-slate-100 pt-6">
-              <Link href="/help" className="flex items-center gap-3 text-sm font-semibold text-slate-500 hover:text-slate-800 transition">
-                <HelpCircle size={18} strokeWidth={2} /> Help Center
+              <Link href="/help" className="flex items-center gap-3 text-[14px] font-semibold text-slate-500 hover:text-slate-800 transition">
+                <HelpCircle size={20} strokeWidth={2.5} /> Help Center
               </Link>
-              <Link href="/login" className="flex items-center gap-3 text-sm font-semibold text-slate-500 hover:text-slate-800 transition">
-                <LogOut size={18} strokeWidth={2} /> Sign Out
+              <Link href="/login" className="flex items-center gap-3 text-[14px] font-semibold text-slate-500 hover:text-slate-800 transition">
+                <LogOut size={20} strokeWidth={2.5} /> Sign Out
               </Link>
             </div>
           </div>
