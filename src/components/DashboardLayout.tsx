@@ -24,7 +24,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { name: 'Consultation', path: '/consultation/chat', icon: MessageCircle },
     { name: 'Chat History', path: '/chat-history', icon: History },
     { name: 'Health Hub', path: '/health-hub', icon: BookOpen },
-    { name: 'Risk Profile', path: '/Profile', icon: Activity },
+    { name: 'Risk Profile', path: '/profile', icon: Activity },
     { name: 'Facilities', path: '/facilities', icon: PlusSquare },
     { name: 'Settings', path: '/settings', icon: Settings },
   ];

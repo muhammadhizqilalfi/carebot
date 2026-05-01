@@ -4,119 +4,121 @@ import React from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
 import Link from 'next/link';
 import { 
-  MessageSquarePlus, 
-  Activity, 
-  Calendar, 
   ArrowRight, 
-  User, 
   Sparkles, 
   TrendingUp, 
   Clock,
-  ShieldCheck
+  ShieldCheck,
+  CalendarDays,
+  Activity,
+  ArrowUpRight
 } from 'lucide-react';
 
 export default function MainDashboardPage() {
   return (
     <DashboardLayout>
-      <div className="max-w-[1200px] mx-auto w-full pb-12 pt-4 px-6 lg:px-8 animate-[fadeIn_0.5s_ease-out]">
+      <div className="max-w-[1200px] mx-auto w-full pb-12 pt-6 px-6 lg:px-8 animate-[fadeIn_0.5s_ease-out]">
         
-        {/* ================= WELCOME SECTION ================= */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+        {/* ================= HEADER: Minimalist Welcome ================= */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <h1 className="text-[34px] font-black text-slate-900 tracking-tight mb-2">
+            <h1 className="text-[32px] font-extrabold text-slate-900 tracking-tight mb-1.5 leading-tight">
               Selamat Datang, <span className="text-[#0B7A7D]">CareSob!</span>
             </h1>
-            <p className="text-slate-500 font-medium text-[15px]">
-              Pantau kesehatan diabetes Anda dan konsultasikan keluhan Anda hari ini.
+            <p className="text-slate-500 font-medium text-[14px]">
+              Pantau metrik kesehatan dan mulai sesi konsultasi Anda.
             </p>
           </div>
-          <div className="flex items-center gap-3 bg-white p-2 rounded-2xl shadow-sm border border-slate-100">
-             <div className="w-10 h-10 rounded-xl bg-[#F0F7F7] flex items-center justify-center text-[#0B7A7D]">
-                <Calendar size={20} />
-             </div>
-             <div className="pr-4">
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Hari Ini</p>
-                <p className="text-sm font-bold text-slate-800">30 April, 2026</p>
+          
+          {/* Subtle Date Badge */}
+          <div className="flex items-center gap-3 bg-white px-5 py-2.5 rounded-full shadow-[0_2px_15px_rgba(0,0,0,0.02)] border border-slate-100">
+             <CalendarDays size={16} className="text-slate-400" />
+             <div className="flex flex-col">
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5">Hari Ini</span>
+                <span className="text-[12px] font-bold text-slate-700 leading-none">30 April, 2026</span>
              </div>
           </div>
         </div>
 
-        {/* ================= MAIN BENTO GRID ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-7">
+        {/* ================= PREMIUM BENTO GRID ================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
-          {/* 1. HERO CALL TO ACTION (Lebar 8/12) */}
-          <div className="md:col-span-8 bg-gradient-to-br from-[#0B7A7D] to-[#075355] rounded-[32px] p-10 md:p-12 text-white shadow-[0_20px_50px_rgba(11,122,125,0.2)] relative overflow-hidden group">
-            {/* Dekorasi Background */}
-            <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 group-hover:scale-110 transition-transform duration-700"></div>
+          {/* 1. HERO CARD (Lebar 8/12) - Elegant Dark Mode Aura */}
+          <div className="lg:col-span-8 bg-[#043B3D] rounded-[32px] p-10 md:p-12 text-white shadow-xl relative overflow-hidden group flex flex-col justify-between min-h-[320px]">
+            {/* Smooth Aurora Background Effect */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0B7A7D]/40 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 opacity-50 group-hover:opacity-70 transition-opacity duration-700"></div>
             
-            <div className="relative z-10 max-w-lg">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full border border-white/10 text-[10px] font-black uppercase tracking-widest">
+            <div className="relative z-10">
+              <div className="flex items-center gap-2.5 mb-8">
+                <div className="px-3 py-1.5 bg-white/10 backdrop-blur-md rounded-full border border-white/5 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div>
                   AI Assistant
                 </div>
-                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
               </div>
               
-              <h2 className="text-[38px] md:text-[46px] font-black leading-[1.1] mb-6 tracking-tight">
+              <h2 className="text-[36px] md:text-[42px] font-black leading-[1.1] mb-4 tracking-tight max-w-lg">
                 Ada keluhan kesehatan hari ini?
               </h2>
-              <p className="text-[#D4EDED] text-lg font-medium mb-10 leading-relaxed">
-                Ceritakan gejala yang Anda rasakan pada CareBot. Kami akan membantu menganalisis risiko awal secara instan.
+              <p className="text-[#A5D2D3] text-[15px] font-medium leading-relaxed max-w-md mb-8">
+                Sistem kami siap menganalisis gejala Anda secara instan berdasarkan data medis terkini.
               </p>
-              
-              <Link href="/consultation/chat" className="inline-flex items-center gap-3 bg-white text-[#0B7A7D] px-8 py-4 rounded-full font-black text-[15px] shadow-xl hover:bg-[#F0F7F7] hover:-translate-y-1 transition-all active:scale-95 group">
-                <MessageSquarePlus size={20} strokeWidth={2.5} />
-                Mulai Konsultasi
-                <ArrowRight size={18} strokeWidth={3} className="group-hover:translate-x-1.5 transition-transform" />
-              </Link>
             </div>
 
-            {/* Ilustrasi Dekoratif Sederhana */}
-            <div className="absolute bottom-10 right-10 opacity-20 hidden lg:block">
-               <Sparkles size={120} strokeWidth={1} />
+            {/* Punchy Call-to-Action */}
+            <div className="relative z-10">
+              <Link href="/consultation/chat" className="inline-flex items-center gap-3 bg-white text-[#043B3D] px-7 py-3.5 rounded-full font-bold text-[14px] shadow-[0_8px_20px_rgba(0,0,0,0.1)] hover:shadow-lg hover:-translate-y-0.5 transition-all active:scale-95 group/btn">
+                <Sparkles size={16} className="text-[#0B7A7D]" />
+                Mulai Chat
+                <ArrowRight size={16} strokeWidth={2.5} className="group-hover/btn:translate-x-1 transition-transform" />
+              </Link>
             </div>
           </div>
 
-          {/* 2. RINGKASAN RISIKO (Lebar 4/12) */}
-          <div className="md:col-span-4 bg-white rounded-[32px] p-8 border border-slate-100 shadow-[0_4px_25px_rgba(0,0,0,0.03)] flex flex-col justify-between group hover:shadow-lg transition-all">
+          {/* 2. RISK PROFILE (Lebar 4/12) - Ultra Clean */}
+          <div className="lg:col-span-4 bg-white rounded-[32px] p-8 border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.04)] transition-all flex flex-col justify-between group min-h-[320px]">
             <div>
-              <div className="flex justify-between items-start mb-8">
-                <div className="w-12 h-12 rounded-2xl bg-[#F0F7F7] flex items-center justify-center text-[#0B7A7D] group-hover:scale-110 transition-transform">
-                  <Activity size={24} strokeWidth={2.5} />
+              <div className="flex justify-between items-center mb-8">
+                <div className="w-10 h-10 rounded-full bg-[#F0F7F7] flex items-center justify-center text-[#0B7A7D] shrink-0">
+                  <Activity size={18} strokeWidth={2.5} />
                 </div>
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Update 2j Lalu</span>
+                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Update 2j Lalu</span>
               </div>
-              <h3 className="text-xl font-extrabold text-slate-900 mb-2">Profil Risiko Anda</h3>
-              <p className="text-slate-500 text-sm font-medium mb-6">Terakhir dianalisis berdasarkan gejala lelah.</p>
               
-              <div className="bg-red-50 border border-red-100 rounded-2xl p-4 flex items-center gap-4 mb-4">
-                <div className="text-2xl font-black text-red-600">Tinggi</div>
-                <TrendingUp size={20} className="text-red-500" />
+              <h3 className="text-[18px] font-extrabold text-slate-900 mb-2 tracking-tight">Profil Risiko</h3>
+              <p className="text-slate-500 text-[13px] font-medium mb-6 leading-relaxed">
+                Terakhir dianalisis berdasarkan log gejala lelah kronis.
+              </p>
+              
+              {/* Minimalist Alert Badge */}
+              <div className="bg-[#FFF5F5] border border-[#FFEBEB] rounded-2xl p-4 flex items-center justify-between">
+                <span className="text-[18px] font-black text-[#D63E3E] tracking-tight">Tinggi</span>
+                <TrendingUp size={18} className="text-[#D63E3E]" strokeWidth={2.5} />
               </div>
             </div>
             
-            <Link href="/Profile" className="text-[#0B7A7D] text-sm font-bold flex items-center gap-1.5 hover:underline">
-              Lihat Detail Analisis <ArrowRight size={16} strokeWidth={2.5} />
+            <Link href="/profile" className="text-[#0B7A7D] text-[13px] font-bold flex items-center gap-1.5 w-fit hover:text-[#085a5d] transition-colors group/link mt-6">
+              Cek Detail <ArrowUpRight size={14} strokeWidth={2.5} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
             </Link>
           </div>
 
-          {/* 3. REKAM MEDIS TERBARU (Lebar 5/12) */}
-          <div className="md:col-span-5 bg-white rounded-[32px] p-8 border border-slate-100 shadow-[0_4px_25px_rgba(0,0,0,0.03)] hover:shadow-lg transition-all">
-            <h3 className="text-lg font-extrabold text-slate-900 mb-6 flex items-center gap-2">
-              <Clock size={20} className="text-slate-400" /> Riwayat Terakhir
-            </h3>
+          {/* 3. REKAM MEDIS (Lebar 5/12) - Refined List */}
+          <div className="lg:col-span-5 bg-[#F8FAFB] rounded-[32px] p-8 border border-slate-100/50 shadow-inner">
+            <div className="flex items-center gap-2.5 mb-8">
+              <Clock size={16} className="text-slate-400" />
+              <h3 className="text-[16px] font-extrabold text-slate-900 tracking-tight">Riwayat Terakhir</h3>
+            </div>
             
             <div className="space-y-4">
               {[
-                { label: 'Evening Check-in', date: '28 Apr', status: 'Risiko Tinggi' },
-                { label: 'Weekly Follow-up', date: '21 Apr', status: 'Risiko Rendah' },
+                { label: 'Evening Check-in', date: '28 Apr', status: 'Tinggi', color: 'text-[#D63E3E]', bg: 'bg-[#FFF5F5]' },
+                { label: 'Weekly Follow-up', date: '21 Apr', status: 'Rendah', color: 'text-[#0B7A7D]', bg: 'bg-[#EAF5F5]' },
               ].map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100/50">
+                <div key={i} className="flex items-center justify-between p-4 bg-white rounded-[20px] border border-slate-100 shadow-[0_2px_10px_rgba(0,0,0,0.01)] hover:border-slate-200 transition-colors cursor-default">
                   <div>
-                    <p className="text-sm font-bold text-slate-800">{item.label}</p>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase mt-1">{item.date}</p>
+                    <p className="text-[14px] font-bold text-slate-800 mb-1">{item.label}</p>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{item.date}</p>
                   </div>
-                  <span className="text-[10px] font-black text-[#0B7A7D] bg-white px-3 py-1 rounded-lg shadow-sm">
+                  <span className={`text-[11px] font-extrabold px-3 py-1.5 rounded-lg ${item.color} ${item.bg}`}>
                     {item.status}
                   </span>
                 </div>
@@ -124,18 +126,18 @@ export default function MainDashboardPage() {
             </div>
           </div>
 
-          {/* 4. PRIVACY & SECURITY (Lebar 7/12) */}
-          <div className="md:col-span-7 bg-[#F4F9F9] rounded-[32px] p-8 md:p-10 border border-[#E0EDED] flex flex-col md:flex-row items-center gap-8 group">
-            <div className="w-20 h-20 rounded-3xl bg-white flex items-center justify-center text-[#0B7A7D] shadow-sm shrink-0 group-hover:rotate-6 transition-transform">
-              <ShieldCheck size={40} strokeWidth={2} />
+          {/* 4. PRIVACY (Lebar 7/12) - Sleek Typography */}
+          <div className="lg:col-span-7 bg-white rounded-[32px] p-8 md:p-10 border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] flex flex-col md:flex-row items-center gap-8 group hover:shadow-[0_8px_40px_rgba(0,0,0,0.04)] transition-all">
+            <div className="w-16 h-16 rounded-[20px] bg-[#F8FAFB] border border-slate-100 flex items-center justify-center text-[#0B7A7D] shrink-0 group-hover:scale-105 transition-transform duration-500">
+              <ShieldCheck size={28} strokeWidth={2} />
             </div>
-            <div>
-              <h3 className="text-lg font-extrabold text-slate-900 mb-2">Data Anda Aman & Terenkripsi</h3>
-              <p className="text-slate-600 text-sm font-medium leading-relaxed mb-4">
-                Kami menggunakan standar enkripsi AES-256 untuk menjaga privasi riwayat medis Anda. Hanya Anda dan tenaga medis terverifikasi yang dapat mengakses data ini.
+            <div className="flex-1">
+              <h3 className="text-[18px] font-extrabold text-slate-900 mb-2.5 tracking-tight">Enkripsi Tingkat Medis</h3>
+              <p className="text-slate-500 text-[14px] font-medium leading-relaxed mb-6 max-w-md">
+                Kami menggunakan AES-256 untuk mengamankan data klinis Anda. Privasi Anda adalah prioritas mutlak kami.
               </p>
-              <button className="text-[#0B7A7D] text-xs font-black uppercase tracking-widest hover:underline">
-                Pelajari Protokol Keamanan
+              <button className="text-[#0B7A7D] text-[12px] font-black uppercase tracking-widest flex items-center gap-1.5 hover:text-[#085a5d] transition-colors group/sec">
+                Baca Protokol <ArrowRight size={14} strokeWidth={2.5} className="group-hover/sec:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
