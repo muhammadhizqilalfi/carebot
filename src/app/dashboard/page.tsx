@@ -17,7 +17,7 @@ import {
 export default function MainDashboardPage() {
   return (
     <DashboardLayout>
-      <div className="max-w-[1200px] mx-auto w-full pb-12 pt-6 px-6 lg:px-8 animate-[fadeIn_0.5s_ease-out]">
+      <div className="max-w-300 mx-auto w-full pb-12 pt-6 px-6 lg:px-8 animate-[fadeIn_0.5s_ease-out]">
         
         {/* ================= HEADER: Minimalist Welcome ================= */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
@@ -44,7 +44,7 @@ export default function MainDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* 1. HERO CARD (Lebar 8/12) - Elegant Dark Mode Aura */}
-          <div className="lg:col-span-8 bg-[#043B3D] rounded-[32px] p-10 md:p-12 text-white shadow-xl relative overflow-hidden group flex flex-col justify-between min-h-[320px]">
+          <div className="lg:col-span-8 bg-[#043B3D] rounded-4xl p-10 md:p-12 text-white shadow-xl relative overflow-hidden group flex flex-col justify-between min-h-[320px]">
             {/* Smooth Aurora Background Effect */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0B7A7D]/40 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 opacity-50 group-hover:opacity-70 transition-opacity duration-700"></div>
             
@@ -75,7 +75,7 @@ export default function MainDashboardPage() {
           </div>
 
           {/* 2. RISK PROFILE (Lebar 4/12) - Ultra Clean */}
-          <div className="lg:col-span-4 bg-white rounded-[32px] p-8 border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.04)] transition-all flex flex-col justify-between group min-h-[320px]">
+          <div className="lg:col-span-4 bg-white rounded-4xl p-8 border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.04)] transition-all flex flex-col justify-between group min-h-[320px]">
             <div>
               <div className="flex justify-between items-center mb-8">
                 <div className="w-10 h-10 rounded-full bg-[#F0F7F7] flex items-center justify-center text-[#0B7A7D] shrink-0">
