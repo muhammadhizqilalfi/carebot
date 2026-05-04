@@ -44,9 +44,9 @@ export default function MainDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* 1. HERO CARD (Lebar 8/12) - Elegant Dark Mode Aura */}
-          <div className="lg:col-span-8 bg-[#043B3D] rounded-4xl p-10 md:p-12 text-white shadow-xl relative overflow-hidden group flex flex-col justify-between min-h-[320px]">
+          <div className="lg:col-span-8 bg-[#043B3D] rounded-4xl p-10 md:p-12 text-white shadow-xl relative overflow-hidden group flex flex-col justify-between min-h-80">
             {/* Smooth Aurora Background Effect */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0B7A7D]/40 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 opacity-50 group-hover:opacity-70 transition-opacity duration-700"></div>
+            <div className="absolute top-0 right-0 w-125 h-125 bg-[#0B7A7D]/40 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/3 opacity-50 group-hover:opacity-70 transition-opacity duration-700"></div>
             
             <div className="relative z-10">
               <div className="flex items-center gap-2.5 mb-8">
@@ -66,7 +66,7 @@ export default function MainDashboardPage() {
 
             {/* Punchy Call-to-Action */}
             <div className="relative z-10">
-              <Link href="/consultation/chat" className="inline-flex items-center gap-3 bg-white text-[#043B3D] px-7 py-3.5 rounded-full font-bold text-[14px] shadow-[0_8px_20px_rgba(0,0,0,0.1)] hover:shadow-lg hover:-translate-y-0.5 transition-all active:scale-95 group/btn">
+              <Link href="/consultation/new" className="inline-flex items-center gap-3 bg-white text-[#043B3D] px-7 py-3.5 rounded-full font-bold text-[14px] shadow-[0_8px_20px_rgba(0,0,0,0.1)] hover:shadow-lg hover:-translate-y-0.5 transition-all active:scale-95 group/btn">
                 <Sparkles size={16} className="text-[#0B7A7D]" />
                 Mulai Chat
                 <ArrowRight size={16} strokeWidth={2.5} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -75,7 +75,7 @@ export default function MainDashboardPage() {
           </div>
 
           {/* 2. RISK PROFILE (Lebar 4/12) - Ultra Clean */}
-          <div className="lg:col-span-4 bg-white rounded-4xl p-8 border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.04)] transition-all flex flex-col justify-between group min-h-[320px]">
+          <div className="lg:col-span-4 bg-white rounded-4xl p-8 border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_40px_rgba(0,0,0,0.04)] transition-all flex flex-col justify-between group min-h-80">
             <div>
               <div className="flex justify-between items-center mb-8">
                 <div className="w-10 h-10 rounded-full bg-[#F0F7F7] flex items-center justify-center text-[#0B7A7D] shrink-0">
@@ -102,7 +102,7 @@ export default function MainDashboardPage() {
           </div>
 
           {/* 3. REKAM MEDIS (Lebar 5/12) - Refined List */}
-          <div className="lg:col-span-5 bg-[#F8FAFB] rounded-[32px] p-8 border border-slate-100/50 shadow-inner">
+          <div className="lg:col-span-5 bg-[#F8FAFB] rounded-4xl p-8 border border-slate-100/50 shadow-inner">
             <div className="flex items-center gap-2.5 mb-8">
               <Clock size={16} className="text-slate-400" />
               <h3 className="text-[16px] font-extrabold text-slate-900 tracking-tight">Riwayat Terakhir</h3>
@@ -127,7 +127,7 @@ export default function MainDashboardPage() {
           </div>
 
           {/* 4. PRIVACY (Lebar 7/12) - Sleek Typography */}
-          <div className="lg:col-span-7 bg-white rounded-[32px] p-8 md:p-10 border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] flex flex-col md:flex-row items-center gap-8 group hover:shadow-[0_8px_40px_rgba(0,0,0,0.04)] transition-all">
+          <div className="lg:col-span-7 bg-white rounded-4xl p-8 md:p-10 border border-slate-100 shadow-[0_4px_30px_rgba(0,0,0,0.02)] flex flex-col md:flex-row items-center gap-8 group hover:shadow-[0_8px_40px_rgba(0,0,0,0.04)] transition-all">
             <div className="w-16 h-16 rounded-[20px] bg-[#F8FAFB] border border-slate-100 flex items-center justify-center text-[#0B7A7D] shrink-0 group-hover:scale-105 transition-transform duration-500">
               <ShieldCheck size={28} strokeWidth={2} />
             </div>

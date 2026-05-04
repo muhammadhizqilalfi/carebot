@@ -1,22 +1,20 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
 import {
   Bot,
   PlusCircle,
-  Mic,
   Send,
   Info,
   Stethoscope,
-  ClipboardList,
-  BriefcaseMedical,
   MoreHorizontal,
   Check,
   Pin,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { Metadata } from "next";
 
-// Tipe data disesuaikan dengan skema Prisma
 type Message = {
   id: string | number;
   content: string;
@@ -25,22 +23,15 @@ type Message = {
 };
 
 export default function ConsultationChatPage() {
-  // Ganti dengan ID asli dari context atau URL params jika perlu
-  const [chatId, setChatId] = useState<string | null>(null);
+  const params = useParams();
+  const router = useRouter();
+  const urlId = params.id as string;
 
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "welcome",
-      content:
-        'Halo! Ceritakan keluhan kesehatan Anda hari ini. Misalnya: "Saya sering merasa haus akhir-akhir ini."',
-      isFromUser: false,
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    },
-  ]);
-
+  // Inisialisasi ID dari URL
+  const [chatId, setChatId] = useState<string | null>(
+    urlId === "new" ? null : urlId,
+  );
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [pinnedContext, setPinnedContext] = useState<string[]>([]);
@@ -55,10 +46,53 @@ export default function ConsultationChatPage() {
   };
 
   useEffect(() => {
+    if (urlId && urlId !== "new") {
+      const fetchHistory = async () => {
+        setIsTyping(true);
+        try {
+          const res = await fetch(`/api/chat?chatId=${urlId}`);
+          const data = await res.json();
+          if (data.history) {
+            setMessages(
+              data.history.map((m: any) => ({
+                id: m.id,
+                content: m.content,
+                isFromUser: m.isFromUser,
+                time: new Date(m.createdAt).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }),
+              })),
+            );
+          }
+        } catch (err) {
+          console.error("Gagal memuat riwayat:", err);
+        } finally {
+          setIsTyping(false);
+        }
+      };
+      fetchHistory();
+    } else {
+      // Jika "new", tampilkan pesan awal saja
+      setMessages([
+        {
+          id: "welcome",
+          content:
+            'Halo! Ceritakan keluhan kesehatan Anda hari ini. Misalnya: "Saya sering merasa haus akhir-akhir ini."',
+          isFromUser: false,
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        },
+      ]);
+    }
+  }, [urlId]);
+
+  useEffect(() => {
     scrollToBottom();
   }, [messages, isTyping]);
 
-  // Fungsi utama memanggil API Groq via Route Handler
   const handleSendMessage = async (text: string = inputValue) => {
     if (!text.trim() || isTyping) return;
 
@@ -67,42 +101,53 @@ export default function ConsultationChatPage() {
       minute: "2-digit",
     });
 
-    // 1. Tambahkan pesan user ke UI secara optimis
-    const newUserMsg: Message = {
+    // Update UI lokal
+    const newUserMsg = {
       id: Date.now(),
       content: text,
       isFromUser: true,
       time: userTime,
     };
-
     setMessages((prev) => [...prev, newUserMsg]);
     setInputValue("");
     setIsTyping(true);
 
     try {
-      // 2. Hit API Route
-      const response = await fetch("/api/chat", {
+      // ✅ LOGIKA DINAMIS:
+      // Jika chatId kosong atau "new", pakai /api/chat
+      // Jika sudah ada ID, pakai /api/chat/[id]
+      const isNewChat = !chatId || chatId === "new";
+      const endpoint = isNewChat ? "/api/chat" : `/api/chat/${chatId}`;
+
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", //
         body: JSON.stringify({
           content: text,
-          chatArchiveId: chatId,
-          contextTags: pinnedContext, // Kirim konteks yang dipin ke backend
+          contextTags: pinnedContext,
+          // chatArchiveId tidak perlu lagi dikirim di body karena sudah ada di endpoint/URL
         }),
       });
-      if (!response.ok) throw new Error("Gagal mendapatkan respon AI");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Gagal mendapatkan respon AI");
+      }
 
       const data = await response.json();
 
-      if (!chatId && data.chatId) {
+      // ✅ JIKA CHAT BARU: Redirect ke URL yang ada ID-nya
+      if (isNewChat && data.chatId) {
         setChatId(data.chatId);
+        router.push(`/consultation/${data.chatId}`, { scroll: false });
+        // Catatan: Setelah push, komponen akan remount dan mengambil history
+        return;
       }
 
-      // 3. Tambahkan respon AI ke UI
+      // ✅ JIKA LANJUTAN CHAT: Update pesan bot seperti biasa
       const newBotMsg = {
         id: data.message.id,
-        content: data.message.content, // Ini adalah parsedRes.answer
+        content: data.message.content,
         isFromUser: false,
         time: new Date().toLocaleTimeString([], {
           hour: "2-digit",
@@ -112,47 +157,22 @@ export default function ConsultationChatPage() {
 
       setMessages((prev) => [...prev, newBotMsg]);
 
-      // Munculkan analisis jika ini adalah interaksi pertama yang cukup panjang
       if (data.analysisList && data.analysisList.length > 0) {
         setAnalysisList(data.analysisList);
         setShowAnalysis(true);
-      } else {
-        setShowAnalysis(false);
       }
     } catch (error) {
       console.error("Chat Error:", error);
-      // Fallback pesan error sederhana
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: "error",
-          content: "Maaf, terjadi gangguan koneksi. Mohon coba lagi.",
-          isFromUser: false,
-          time: userTime,
-        },
-      ]);
+      // Anda bisa menambahkan toast atau notifikasi error di sini
     } finally {
       setIsTyping(false);
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") handleSendMessage();
-  };
-
-  const handleSuggestionClick = (text: string) => {
-    handleSendMessage(text);
-  };
-
-  const handleAnalysisClick = (condition: string) => {
-    handleSendMessage(`Bisa jelaskan lebih lanjut mengenai ${condition}?`);
-    // Jangan langsung tutup setShowAnalysis(false) jika ingin kartu lainnya tetap ada
-  };
-
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden animate-[fadeIn_0.3s_ease-out]">
       {/* AREA CHAT */}
-      <div className="flex-1 overflow-y-auto px-6 lg:px-10 pb-40">
+      <div className="flex-1 overflow-y-auto px-6 lg:px-10 pb-44">
         <div className="max-w-4xl mx-auto space-y-8 pt-8">
           <div className="flex justify-center">
             <span className="bg-slate-100 text-slate-500 text-[10px] font-black px-4 py-1.5 rounded-full tracking-widest uppercase">
@@ -213,12 +233,11 @@ export default function ConsultationChatPage() {
             </div>
           )}
 
-          {/* Analysis Card */}
+          {/* Analysis Context Cards */}
           {showAnalysis && analysisList.length > 0 && (
-            <div className="ml-14 mt-3 flex flex-wrap gap-2">
+            <div className="ml-14 mt-3 flex flex-wrap gap-2 animate-[fadeIn_0.5s_ease-out]">
               {analysisList.map((item, index) => {
                 const isPinned = pinnedContext.includes(item.condition);
-
                 return (
                   <div
                     key={index}
@@ -228,16 +247,14 @@ export default function ConsultationChatPage() {
                         : "bg-white text-slate-700 border-slate-200"
                     }`}
                   >
-                    {/* BAGIAN 1: TOGGLE CONTEXT (Klik Nama/Kondisi) */}
                     <button
-                      onClick={() => {
-                        setPinnedContext(
-                          (prev) =>
-                            isPinned
-                              ? prev.filter((c) => c !== item.condition) // Matikan
-                              : [...prev, item.condition], // Hidupkan
-                        );
-                      }}
+                      onClick={() =>
+                        setPinnedContext((prev) =>
+                          isPinned
+                            ? prev.filter((c) => c !== item.condition)
+                            : [...prev, item.condition],
+                        )
+                      }
                       className="pl-4 pr-2 py-2 flex items-center gap-2 hover:opacity-80 transition-opacity"
                     >
                       {isPinned ? (
@@ -247,24 +264,16 @@ export default function ConsultationChatPage() {
                       )}
                       <span>{item.condition}</span>
                     </button>
-
-                    {/* PEMBATAL / DIVIDER */}
                     <div
                       className={`w-px h-4 ${isPinned ? "bg-white/20" : "bg-slate-200"}`}
                     />
-
-                    {/* BAGIAN 2: SUGGESTION CHAT (Klik Icon Tanya) */}
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation(); // Biar tidak trigger toggle di atas
+                      onClick={() =>
                         handleSendMessage(
                           `Bisa jelaskan lebih lanjut mengenai ${item.condition}?`,
-                        );
-                      }}
-                      className={`pl-2 pr-3 py-2 hover:bg-black/5 rounded-r-full transition-colors ${
-                        isPinned ? "text-white" : "text-[#0B7A7D]"
-                      }`}
-                      title="Tanyakan detail"
+                        )
+                      }
+                      className={`pl-2 pr-3 py-2 hover:bg-black/5 rounded-r-full transition-colors ${isPinned ? "text-white" : "text-[#0B7A7D]"}`}
                     >
                       <PlusCircle size={16} />
                     </button>
@@ -273,26 +282,23 @@ export default function ConsultationChatPage() {
               })}
             </div>
           )}
-
           <div ref={messagesEndRef} />
         </div>
       </div>
 
       {/* INPUT AREA */}
-      <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-[#F8FAFB] via-[#F8FAFB] to-transparent pt-16 pb-6 px-6 lg:px-10">
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#F8FAFB] via-[#F8FAFB] to-transparent pt-16 pb-6 px-6 lg:px-10">
         <div className="max-w-4xl mx-auto">
           {!isTyping && messages.length < 3 && (
             <div className="flex flex-wrap gap-3 mb-5 pl-2 animate-[fadeIn_0.5s_ease-out]">
               <button
-                onClick={() => handleSuggestionClick("Apa itu diabetes?")}
+                onClick={() => handleSendMessage("Apa itu diabetes?")}
                 className="bg-white border border-slate-200 shadow-sm text-slate-600 hover:text-[#0B7A7D] text-[13px] font-bold px-5 py-2.5 rounded-full flex items-center gap-2 transition-all active:scale-95"
               >
                 <Info size={16} strokeWidth={2.5} /> Apa itu diabetes?
               </button>
               <button
-                onClick={() =>
-                  handleSuggestionClick("Apa saja gejala umumnya?")
-                }
+                onClick={() => handleSendMessage("Apa saja gejala umumnya?")}
                 className="bg-white border border-slate-200 shadow-sm text-slate-600 hover:text-[#0B7A7D] text-[13px] font-bold px-5 py-2.5 rounded-full flex items-center gap-2 transition-all active:scale-95"
               >
                 <Stethoscope size={16} strokeWidth={2.5} /> Gejala umum
@@ -308,7 +314,7 @@ export default function ConsultationChatPage() {
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
+              onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
               placeholder="Ketik keluhan Anda di sini..."
               className="flex-1 bg-transparent px-5 text-[15px] outline-none text-slate-800 font-medium disabled:opacity-50"
               disabled={isTyping}

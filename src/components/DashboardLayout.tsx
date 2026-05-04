@@ -43,7 +43,7 @@ export default function DashboardLayout({
 
   const navItems = [
     { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-    { name: "Consultation", path: "/consultation/chat", icon: MessageCircle },
+    { name: "Consultation", path: "/consultation/new", icon: MessageCircle },
     { name: "Chat History", path: "/chat-history", icon: History },
     { name: "Health Hub", path: "/health-hub", icon: BookOpen },
     { name: "Risk Profile", path: "/profile", icon: Activity },
@@ -84,7 +84,7 @@ export default function DashboardLayout({
             </div>
             <div>
               <p className="text-[15px] font-bold text-gray-800">
-                {user?.fullName || "Health Profile"}
+                {user?.fullName}
               </p>
               <p className="text-[12px] text-[#5C8D8E] font-medium flex items-center gap-1">
                 <CheckCircle2
@@ -122,7 +122,7 @@ export default function DashboardLayout({
           {/* Bottom Sidebar Actions */}
           <div className="mt-auto p-6 space-y-6">
             <Link
-              href="/consultation/chat"
+              href="/consultation/new"
               className="flex items-center justify-center w-full bg-[#0B7A7D] text-white rounded-full py-3.5 text-[14px] font-bold shadow-[0_8px_20px_rgba(11,122,125,0.2)] hover:bg-[#086163] hover:shadow-md transition-all active:scale-95"
             >
               Start New Assessment
