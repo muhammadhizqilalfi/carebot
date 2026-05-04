@@ -1,4 +1,4 @@
-import { prisma } from './prismaClient';
+import { prisma } from '@/lib/prisma';
 
 // Contoh fungsi Model MVC
 export async function getUserProfile(userId: string) {
