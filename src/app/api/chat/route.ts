@@ -1,5 +1,7 @@
 export const runtime = "nodejs";
 
+export const dynamic = "force-dynamic";
+
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
@@ -124,9 +126,8 @@ export async function POST(req: Request) {
       take: 20,
     });
 
-    const messagesForAI = history.map((msg) => ({
+    const messagesForAI = history.map((msg: { isFromUser: boolean; content: string }) => ({
       role: msg.isFromUser ? "user" : "assistant",
-
       content: msg.content,
     }));
 
