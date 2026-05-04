@@ -103,7 +103,7 @@ export default function ProfilePage() {
               ))}
             </div>
 
-            <Link href="/consultation/chat" className="mt-8 inline-flex items-center justify-between w-full rounded-3xl bg-white px-6 py-3 text-sm font-bold text-[#0B7A7D] shadow-lg transition hover:bg-slate-100">
+            <Link href="/consultation/new" className="mt-8 inline-flex items-center justify-between w-full rounded-3xl bg-white px-6 py-3 text-sm font-bold text-[#0B7A7D] shadow-lg transition hover:bg-slate-100">
               <span>Schedule Appointment</span>
               <ArrowRight size={18} />
             </Link>

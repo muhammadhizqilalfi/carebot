@@ -15,15 +15,25 @@ export async function GET() {
     });
 
     if (!dbUser) {
-      return NextResponse.json({ error: "User tidak ditemukan" }, { status: 404 });
+      return NextResponse.json(
+        { error: "User tidak ditemukan" },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({
       id: dbUser.id,
       fullName: dbUser.fullName,
       email: dbUser.email,
+      age: dbUser.age,
+      weight: dbUser.weight,
+      height: dbUser.height,
+      encryption: dbUser.encryption,
+      dataSharing: dbUser.dataSharing,
+      reminders: dbUser.reminders,
+      alerts: dbUser.alerts,
+      insights: dbUser.insights,
     });
-
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Terjadi kesalahan" }, { status: 500 });
