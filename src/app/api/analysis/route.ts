@@ -8,18 +8,28 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 export async function GET() {
   try {
     const user = await getUserFromToken();
-    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (!user)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     // 1. Ambil chat terakhir user
     const lastChat = await prisma.chatArchive.findFirst({
       where: { userId: user.id },
-      orderBy: { updatedAt: 'desc' },
-      include: { messages: { orderBy: { createdAt: 'asc' }, take: 20 } }
+      orderBy: { updatedAt: "desc" },
+      include: { messages: { orderBy: { createdAt: "asc" }, take: 20 } },
     });
 
-    if (!lastChat) return NextResponse.json({ error: "No chat history found" }, { status: 404 });
+    if (!lastChat)
+      return NextResponse.json(
+        { error: "No chat history found" },
+        { status: 404 },
+      );
 
-    const chatContext = lastChat.messages.map(m => `${m.isFromUser ? 'User' : 'Bot'}: ${m.content}`).join("\n");
+    const chatContext = lastChat.messages
+      .map(
+        (m: { isFromUser: boolean; content: string }) =>
+          `${m.isFromUser ? "User" : "Bot"}: ${m.content}`,
+      )
+      .join("\n");
 
     // 2. Minta AI menganalisis riwayat tersebut
     const completion = await groq.chat.completions.create({
@@ -35,18 +45,20 @@ export async function GET() {
             "symptoms": ["gejala1", "gejala2"],
             "insights": "Informasi penting",
             "nextSteps": [{"title": "Langkah", "desc": "Penjelasan"}]
-          }`
+          }`,
         },
-        { role: "user", content: `Berikut riwayat chatnya:\n${chatContext}` }
+        { role: "user", content: `Berikut riwayat chatnya:\n${chatContext}` },
       ],
       model: "llama-3.3-70b-versatile",
-      response_format: { type: "json_object" }
+      response_format: { type: "json_object" },
     });
 
     const analysis = JSON.parse(completion.choices[0].message.content || "{}");
     return NextResponse.json(analysis);
-
   } catch (error) {
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 },
+    );
   }
 }
