@@ -132,7 +132,7 @@ export default function MainDashboardPage() {
               </div>
             </div>
             
-            <Link href="/consultation" className="text-[#0B7A7D] text-[13px] font-bold flex items-center gap-1.5 w-fit hover:text-[#085a5d] transition-colors group/link mt-6">
+            <Link href="/profile" className="text-[#0B7A7D] text-[13px] font-bold flex items-center gap-1.5 w-fit hover:text-[#085a5d] transition-colors group/link mt-6">
               Cek Detail <ArrowUpRight size={14} strokeWidth={2.5} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
             </Link>
           </div>
@@ -181,9 +181,9 @@ export default function MainDashboardPage() {
               <p className="text-slate-500 text-[14px] font-medium leading-relaxed mb-6 max-w-md">
                 Data klinis Anda dienkripsi secara end-to-end. Kami memastikan informasi kesehatan Anda tetap menjadi milik Anda.
               </p>
-              <button className="text-[#0B7A7D] text-[12px] font-black uppercase tracking-widest flex items-center gap-1.5 hover:text-[#085a5d] transition-colors group/sec">
+              <Link href="/help" className="text-[#0B7A7D] text-[12px] font-black uppercase tracking-widest flex items-center gap-1.5 hover:text-[#085a5d] transition-colors group/sec">
                 Baca Protokol <ArrowRight size={14} strokeWidth={2.5} className="group-hover/sec:translate-x-1 transition-transform" />
-              </button>
+              </Link>
             </div>
           </div>
 
