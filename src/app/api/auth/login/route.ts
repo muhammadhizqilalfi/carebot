@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import { signToken } from "@/lib/jwt";
 import { cookies } from "next/headers";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   const { email, password } = await req.json();
