@@ -178,10 +178,6 @@ export default function HelpCenterPage() {
                   </div>
                 </div>
               </div>
-
-              <button className="w-full mt-8 bg-slate-900 text-white flex justify-center items-center gap-2 py-4 rounded-[20px] text-sm font-bold shadow-lg hover:bg-slate-800 transition-colors active:scale-95 group">
-                Live Chat Support <ArrowRight size={16} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
-              </button>
             </div>
           </div>
 
