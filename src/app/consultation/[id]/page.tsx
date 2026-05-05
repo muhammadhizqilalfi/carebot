@@ -100,51 +100,47 @@ export default function ConsultationChatPage() {
       hour: "2-digit",
       minute: "2-digit",
     });
-
-    // Update UI lokal
     const newUserMsg = {
       id: Date.now(),
       content: text,
       isFromUser: true,
       time: userTime,
     };
+
     setMessages((prev) => [...prev, newUserMsg]);
     setInputValue("");
     setIsTyping(true);
 
     try {
-      // ✅ LOGIKA DINAMIS:
-      // Jika chatId kosong atau "new", pakai /api/chat
-      // Jika sudah ada ID, pakai /api/chat/[id]
       const isNewChat = !chatId || chatId === "new";
-      const endpoint = isNewChat ? "/api/chat" : `/api/chat/${chatId}`;
+      const endpoint = "/api/chat";
 
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           content: text,
+          // ✅ Kirim ID lewat body agar Backend tahu ini chat yang mana
+          chatArchiveId: chatId === "new" ? null : chatId,
           contextTags: pinnedContext,
-          // chatArchiveId tidak perlu lagi dikirim di body karena sudah ada di endpoint/URL
         }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Gagal mendapatkan respon AI");
-      }
-
+      if (!response.ok) throw new Error("Gagal mendapatkan respon AI");
       const data = await response.json();
 
-      // ✅ JIKA CHAT BARU: Redirect ke URL yang ada ID-nya
-      if (isNewChat && data.chatId) {
-        setChatId(data.chatId);
-        router.push(`/consultation/${data.chatId}`, { scroll: false });
-        // Catatan: Setelah push, komponen akan remount dan mengambil history
-        return;
+      // Simpan data analisis ke state sebelum redirect/update
+      if (data.analysisList && data.analysisList.length > 0) {
+        setAnalysisList(data.analysisList);
+        setShowAnalysis(true);
       }
 
-      // ✅ JIKA LANJUTAN CHAT: Update pesan bot seperti biasa
+      if (isNewChat && data.chatId) {
+        setChatId(data.chatId);
+        window.history.pushState({}, "", `/consultation/${data.chatId}`);
+        // Lanjutkan eksekusi untuk setMessages agar UI terupdate tanpa reload
+      }
+
       const newBotMsg = {
         id: data.message.id,
         content: data.message.content,
@@ -156,14 +152,8 @@ export default function ConsultationChatPage() {
       };
 
       setMessages((prev) => [...prev, newBotMsg]);
-
-      if (data.analysisList && data.analysisList.length > 0) {
-        setAnalysisList(data.analysisList);
-        setShowAnalysis(true);
-      }
     } catch (error) {
       console.error("Chat Error:", error);
-      // Anda bisa menambahkan toast atau notifikasi error di sini
     } finally {
       setIsTyping(false);
     }

@@ -49,6 +49,9 @@ model ChatArchive {
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
+  risk      String?   // "HIGH RISK", "LOW RISK", atau "MODERATE"
+  summary   String?   @db.Text // Deskripsi singkat untuk tampilan di list history
+
   // Detail pesan disimpan di sini
   messages  Message[]
   
@@ -61,10 +64,11 @@ model Message {
   chatArchiveId String
   chatArchive   ChatArchive @relation(fields: [chatArchiveId], references: [id], onDelete: Cascade)
   
-  // Kita gunakan boolean sederhana untuk membedakan
   // isFromUser = true (User), isFromUser = false (AI/CareBot)
   content       String      @db.Text
   isFromUser    Boolean     @default(true)
   
+  // metadata      Json?
+
   createdAt     DateTime    @default(now())
 }

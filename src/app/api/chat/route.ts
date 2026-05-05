@@ -259,7 +259,7 @@ FORMAT RESPON: Jawablah dengan format JSON sebagai berikut:
 
       model: CHAT_MODEL,
 
-      temperature: 0.4,
+      temperature: 0.3,
 
       max_tokens: 400,
     });
